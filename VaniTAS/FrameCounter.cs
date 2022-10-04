@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TAS
+namespace VaniTAS
 {
     internal class FrameCounter : MonoBehaviour
     {

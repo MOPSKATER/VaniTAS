@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using UnityEngine;
 
-namespace TAS
+namespace VaniTAS
 {
     internal class Player : MonoBehaviour
     {
@@ -19,7 +19,7 @@ namespace TAS
             _inputs = TASManager.GetTAS(Main.Game.GetCurrentLevel().levelID);
         }
 
-        protected void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!Trigger()) return;
             _currentAction = _inputs[FrameCounter.CurrentFrameCount - 1];
@@ -34,8 +34,7 @@ namespace TAS
 
             if (Main.CurrentMode == Main.Mode.Edit)
             {
-                if (!Editor.Continue) return true;
-                Editor.Continue = false;
+                if (!Editor.Continue) return false;
             }
 
             switch (axis)
@@ -66,8 +65,7 @@ namespace TAS
 
             if (Main.CurrentMode == Main.Mode.Edit)
             {
-                if (!Editor.Continue) return true;
-                Editor.Continue = false;
+                if (!Editor.Continue) return false;
             }
 
             switch (axis)
@@ -93,8 +91,7 @@ namespace TAS
 
             if (Main.CurrentMode == Main.Mode.Edit)
             {
-                if (!Editor.Continue) return true;
-                Editor.Continue = false;
+                if (!Editor.Continue) return false;
             }
 
             switch (button)
@@ -131,8 +128,7 @@ namespace TAS
             if (Main.CurrentMode == Main.Mode.Edit)
             {
                 if (FrameCounter.CurrentFrameCount < 2) return false;
-                if (!Editor.Continue) return true;
-                Editor.Continue = false;
+                if (!Editor.Continue) return false;
             }
             else if (FrameCounter.CurrentFrameCount < 2) return true;
 
@@ -169,9 +165,9 @@ namespace TAS
 
             if (Main.CurrentMode == Main.Mode.Edit)
             {
+                //Debug.Log((FrameCounter.CurrentFrameCount < 2) + "  " + Editor.Continue);
                 if (FrameCounter.CurrentFrameCount < 2) return false;
-                if (!Editor.Continue) return true;
-                Editor.Continue = false;
+                if (!Editor.Continue) return false;
             }
             else if (FrameCounter.CurrentFrameCount < 2) return true;
 
@@ -200,17 +196,14 @@ namespace TAS
                 default: return true;
             }
         }
-        protected static bool Trigger()
-        {
-            return CurrentPlayer != null && Main.CurrentMode == Main.Mode.Play && FrameCounter.CurrentFrameCount < CurrentPlayer._inputs.Count;
-        }
+        protected static bool Trigger() =>
+            CurrentPlayer != null &&
+                (Main.CurrentMode == Main.Mode.Play || Main.CurrentMode == Main.Mode.Edit) &&
+                FrameCounter.CurrentFrameCount < CurrentPlayer._inputs.Count;
 
         private static bool Trigger(GameInput.InputType inputType)
         {
-            return CurrentPlayer != null &&
-                FrameCounter.CurrentFrameCount < CurrentPlayer._inputs.Count &&
-                inputType == GameInput.InputType.Game &&
-                (Main.CurrentMode == Main.Mode.Play || Main.CurrentMode == Main.Mode.Edit );
+            return Trigger() && inputType == GameInput.InputType.Game;
         }
     }
 }

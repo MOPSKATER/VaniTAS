@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TAS
+namespace VaniTAS
 {
     internal class TimeController : MonoBehaviour
     {
@@ -24,6 +24,7 @@ namespace TAS
             {
                 RM.time.SetTargetTimescale(0f);
                 _currentScaleIndex = 0;
+                Editor.Continue = false;
                 return;
             }
 
@@ -62,6 +63,11 @@ namespace TAS
                 _frameAdvance = true;
                 RM.time.SetTargetTimescale(_speedValues[1]);
             }
+
+            if (_currentScaleIndex == 0)
+                Editor.Continue = false;
+            else
+                Editor.Continue = true;
         }
 
         void FixedUpdate()
@@ -70,6 +76,7 @@ namespace TAS
             {
                 _frameAdvance = false;
                 RM.time.SetTargetTimescale(0);
+                Editor.Continue = false;
             }
         }
 

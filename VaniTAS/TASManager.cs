@@ -1,4 +1,4 @@
-﻿namespace TAS
+﻿namespace VaniTAS
 {
     internal static class TASManager
     {

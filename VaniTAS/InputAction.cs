@@ -1,6 +1,6 @@
-﻿namespace TAS
+﻿namespace VaniTAS
 {
-    internal struct InputAction
+    internal record InputAction
     {
         public bool Jump, Fire, Ability, Swap;
         public float Vertical, Horizontal, Pitch, Yaw;

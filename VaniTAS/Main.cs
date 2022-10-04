@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-namespace TAS
+namespace VaniTAS
 {
     public class Main : MelonMod
     {
@@ -46,15 +46,15 @@ namespace TAS
             if (SceneManager.GetActiveScene().name.Equals("Heaven_Environment")) return;
 
 
-            GameObject controller = new("TAS Manager");
-            FrameCounter = controller.AddComponent<FrameCounter>();
-
-            FrameCounter.ResetCounter();
             if ((CurrentMode == Mode.Edit || CurrentMode == Mode.Play) && TASManager.GetTAS(Game.GetCurrentLevel().levelID) == null)
             {
                 NextMode = Mode.Disabled;
                 CurrentMode = Mode.Disabled;
+                return;
             }
+
+            GameObject controller = new("TAS Manager");
+            FrameCounter = controller.AddComponent<FrameCounter>();
 
             switch (CurrentMode)
             {

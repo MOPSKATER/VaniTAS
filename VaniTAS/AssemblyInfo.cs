@@ -19,5 +19,5 @@ using System.Runtime.InteropServices;
 // bereitgestellt wird.
 
 [assembly: Guid("3fda7743-4f5c-4233-92a1-10b1fc18a1bf")]
-[assembly: MelonInfo(typeof(TAS.Main), "TAS", "1.0.0", "MOPSKATER")]
+[assembly: MelonInfo(typeof(VaniTAS.Main), "VaniTAS", "1.0.0", "MOPSKATER")]
 

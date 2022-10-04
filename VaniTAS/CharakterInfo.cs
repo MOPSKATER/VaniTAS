@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using UnityEngine;
 
-namespace TAS
+namespace VaniTAS
 {
     internal class CharakterInfo : MonoBehaviour
     {

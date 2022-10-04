@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using UnityEngine;
 
-namespace TAS
+namespace VaniTAS
 {
     internal class Editor : Player
     {
@@ -9,10 +9,7 @@ namespace TAS
         private readonly MethodInfo GetInputActionForGameAction = typeof(GameInput).GetMethod("GetInputActionForGameAction", BindingFlags.NonPublic | BindingFlags.Instance);
         public static bool Continue { get; set; } = false;
 
-        void Awake()
-        {
-            base.Awake();
-        }
+        public void Awake() => base.Awake();
 
         void FixedUpdate()
         {
@@ -24,22 +21,17 @@ namespace TAS
 
         void Update()
         {
-            if (GetButtonDown(GameInput.GameActions.Jump, GameInput.InputType.Game))
-            {
+            if (GetButtonDown(GameInput.GameActions.Jump))
                 _currentAction.Jump = !_currentAction.Jump;
-            }
-            if (GetButtonDown(GameInput.GameActions.FireCard, GameInput.InputType.Game))
-            {
+
+            if (GetButtonDown(GameInput.GameActions.FireCard))
                 _currentAction.Fire = !_currentAction.Fire;
-            }
-            if (GetButtonDown(GameInput.GameActions.FireCardAlt, GameInput.InputType.Game))
-            {
+
+            if (GetButtonDown(GameInput.GameActions.FireCardAlt))
                 _currentAction.Ability = !_currentAction.Ability;
-            }
-            if (GetButtonDown(GameInput.GameActions.SwapCard, GameInput.InputType.Game))
-            {
+
+            if (GetButtonDown(GameInput.GameActions.SwapCard))
                 _currentAction.Swap = !_currentAction.Swap;
-            }
         }
 
         void OnGUI()
@@ -47,9 +39,9 @@ namespace TAS
             GUI.Label(new Rect(10, 160, 150, 150), _currentAction.ToString(), Main.Style);
         }
 
-        private bool GetButtonDown(GameInput.GameActions button, GameInput.InputType inputType)
+        private bool GetButtonDown(GameInput.GameActions button)
         {
-            UnityEngine.InputSystem.InputAction inputActionForGameAction = (UnityEngine.InputSystem.InputAction) GetInputActionForGameAction.Invoke(_gameInput, new object[] { button });
+            UnityEngine.InputSystem.InputAction inputActionForGameAction = (UnityEngine.InputSystem.InputAction)GetInputActionForGameAction.Invoke(_gameInput, new object[] { button });
             return inputActionForGameAction != null && inputActionForGameAction.WasPressedThisFrame();
         }
     }
