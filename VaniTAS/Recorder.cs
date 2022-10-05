@@ -5,16 +5,20 @@ namespace VaniTAS
     internal class Recorder : MonoBehaviour
     {
         public static Recorder CurrentRecorder;
-        private List<InputAction> _actionList = new(2000000);
+        private List<InputAction> _actionList = new(10000);
         private readonly GameInput _gameInput = Singleton<GameInput>.Instance;
 
-        private static bool _listen = true;
+        private static bool _listen;
 
-        void Awake() => CurrentRecorder = this;
+        void Awake()
+        {
+            CurrentRecorder = this;
+            _listen = true;
+        }
 
         void FixedUpdate()
         {
-            if (_listen) Record(); new Task(Record).Start();
+            if (_listen) new Task(Record).Start();
         }
 
         private void Record()

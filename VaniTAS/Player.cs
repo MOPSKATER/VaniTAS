@@ -19,7 +19,7 @@ namespace VaniTAS
             _inputs = TASManager.GetTAS(Main.Game.GetCurrentLevel().levelID);
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             if (!Trigger()) return;
             _currentAction = _inputs[FrameCounter.CurrentFrameCount - 1];
@@ -86,7 +86,7 @@ namespace VaniTAS
 
         public static bool PreGetButton(ref bool __result, GameInput.GameActions button, GameInput.InputType inputType = GameInput.InputType.Game)
         {
-            if (!Trigger(inputType)) return true;
+            if (!Trigger(inputType) || button == GameInput.GameActions.Restart) return true;
 
 
             if (Main.CurrentMode == Main.Mode.Edit)
@@ -111,18 +111,13 @@ namespace VaniTAS
                         __result = _currentAction.Jump;
                         return false;
                     }
-                case GameInput.GameActions.Restart:
-                    {
-                        __result = false;
-                        return false;
-                    }
                 default: return true;
             }
         }
 
         public static bool PreGetButtonDown(ref bool __result, GameInput.GameActions button, GameInput.InputType inputType = GameInput.InputType.Game)
         {
-            if (!Trigger(inputType)) return true;
+            if (!Trigger(inputType) || button == GameInput.GameActions.Restart) return true;
 
 
             if (Main.CurrentMode == Main.Mode.Edit)
@@ -149,23 +144,17 @@ namespace VaniTAS
                         __result = _currentAction.Jump && !CurrentPlayer._inputs[FrameCounter.CurrentFrameCount - 2].Jump;
                         return false;
                     }
-                case GameInput.GameActions.Restart:
-                    {
-                        __result = false; // frame_restart_pressed && !last_frame_restart_pressed;
-                        return false;
-                    }
                 default: return true;
             }
         }
 
         public static bool PreGetButtonUp(ref bool __result, GameInput.GameActions button, GameInput.InputType inputType = GameInput.InputType.Game)
         {
-            if (!Trigger(inputType)) return true;
+            if (!Trigger(inputType) || button == GameInput.GameActions.Restart) return true;
 
 
             if (Main.CurrentMode == Main.Mode.Edit)
             {
-                //Debug.Log((FrameCounter.CurrentFrameCount < 2) + "  " + Editor.Continue);
                 if (FrameCounter.CurrentFrameCount < 2) return false;
                 if (!Editor.Continue) return false;
             }
@@ -198,7 +187,7 @@ namespace VaniTAS
         }
         protected static bool Trigger() =>
             CurrentPlayer != null &&
-                (Main.CurrentMode == Main.Mode.Play || Main.CurrentMode == Main.Mode.Edit) &&
+                (Main.CurrentMode == Main.Mode.Play || (Main.CurrentMode == Main.Mode.Edit && Editor.Continue)) &&
                 FrameCounter.CurrentFrameCount < CurrentPlayer._inputs.Count;
 
         private static bool Trigger(GameInput.InputType inputType)

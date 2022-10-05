@@ -32,12 +32,17 @@ namespace VaniTAS
                 RM.time.SetTargetTimescale(_speedValues[++_currentScaleIndex]);
 
             else if (Keyboard.current.downArrowKey.wasPressedThisFrame && _currentScaleIndex > 0)
+            {
                 RM.time.SetTargetTimescale(_speedValues[--_currentScaleIndex]);
+                if (_currentScaleIndex == 0)
+                    Editor.Continue = false;
+            }
 
             else if (Keyboard.current.numpad0Key.wasPressedThisFrame)
             {
                 _currentScaleIndex = (int)Speed.Frozen;
                 RM.time.SetTargetTimescale(_speedValues[_currentScaleIndex]);
+                Editor.Continue = false;
             }
 
             else if (Keyboard.current.numpad1Key.wasPressedThisFrame)
@@ -61,12 +66,12 @@ namespace VaniTAS
             else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
             {
                 _frameAdvance = true;
+                _currentScaleIndex = 0;
+                Editor.Continue = true;
                 RM.time.SetTargetTimescale(_speedValues[1]);
             }
 
-            if (_currentScaleIndex == 0)
-                Editor.Continue = false;
-            else
+            if (_currentScaleIndex != 0)
                 Editor.Continue = true;
         }
 

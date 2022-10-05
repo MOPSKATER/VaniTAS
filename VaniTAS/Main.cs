@@ -11,6 +11,7 @@ namespace VaniTAS
     {
 
         public static Game Game { get; private set; }
+
         private static Mode NextMode = Mode.Disabled;
         public static Mode CurrentMode = Mode.Disabled;
         internal static FrameCounter FrameCounter { get; private set; }
@@ -64,9 +65,9 @@ namespace VaniTAS
                     controller.AddComponent<Recorder>();
                     break;
                 case Mode.Edit:
+                    controller.AddComponent<Editor>();
                     controller.AddComponent<TimeController>().Initialize(TimeController.Speed.Frozen);
                     controller.AddComponent<CharakterInfo>();
-                    controller.AddComponent<Editor>();
                     break;
                 case Mode.Play:
                     controller.AddComponent<Player>();
