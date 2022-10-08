@@ -24,7 +24,7 @@ namespace VaniTAS
 
         public override void OnApplicationLateStart()
         {
-            GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
+            AntiCheat.Anticheat.TriggerAnticheat();
             PatchGame();
             Game game = Singleton<Game>.Instance;
 
@@ -98,26 +98,12 @@ namespace VaniTAS
             Play
         }
 
-        #region Patching stuff
-
         private void PatchGame()
         {
             HarmonyLib.Harmony harmony = new("de.MOPSKATER.TAS");
 
-            MethodInfo target = typeof(LevelStats).GetMethod("UpdateTimeMicroseconds");
-            HarmonyMethod patch = new(typeof(Main).GetMethod("PreventNewScore"));
-            harmony.Patch(target, patch);
-
-            target = typeof(Game).GetMethod("OnLevelWin");
-            patch = new(typeof(Main).GetMethod("PreventNewGhost"));
-            harmony.Patch(target, patch);
-
-            target = typeof(LevelRush).GetMethod("IsCurrentLevelRushScoreBetter", BindingFlags.NonPublic | BindingFlags.Static);
-            patch = new(typeof(Main).GetMethod("PreventNewBestLevelRush"));
-            harmony.Patch(target, patch);
-
-            target = typeof(Game).GetMethod("OnLevelWin");
-            patch = new(typeof(Recorder).GetMethod("PreOnLevelWin"));
+            MethodInfo target = typeof(Game).GetMethod("OnLevelWin");
+            HarmonyMethod patch = new(typeof(Recorder).GetMethod("PreOnLevelWin"));
             harmony.Patch(target, patch);
 
             target = typeof(GameInput).GetMethod("GetAxis");
@@ -140,33 +126,5 @@ namespace VaniTAS
             patch = new(typeof(Player).GetMethod("PreGetButtonUp"));
             harmony.Patch(target, patch);
         }
-
-        public static bool PreventNewScore(LevelStats __instance, ref long newTime)
-        {
-            if (newTime < __instance._timeBestMicroseconds)
-            {
-                if (__instance._timeBestMicroseconds == 999999999999L)
-                    __instance._timeBestMicroseconds = 600000000;
-                __instance._newBest = true;
-            }
-            else
-                __instance._newBest = false;
-            __instance._timeLastMicroseconds = newTime;
-            return false;
-        }
-
-        public static bool PreventNewGhost(Game __instance)
-        {
-            __instance.winAction = null;
-            return true;
-        }
-
-        public static bool PreventNewBestLevelRush(ref bool __result)
-        {
-            __result = false;
-            return false;
-        }
-
-        #endregion
     }
 }

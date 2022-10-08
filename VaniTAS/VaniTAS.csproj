@@ -10,6 +10,9 @@
     <Reference Include="0Harmony">
       <HintPath>G:\Spiele\steamapps\common\Neon White\MelonLoader\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="AntiCheat">
+      <HintPath>G:\Spiele\steamapps\common\Neon White\Mods\AntiCheat.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>G:\Spiele\steamapps\common\Neon White\Neon White_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>

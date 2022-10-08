@@ -38,26 +38,26 @@ namespace VaniTAS
                     Editor.Continue = false;
             }
 
-            else if (Keyboard.current.numpad0Key.wasPressedThisFrame)
+            else if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 _currentScaleIndex = (int)Speed.Frozen;
                 RM.time.SetTargetTimescale(_speedValues[_currentScaleIndex]);
                 Editor.Continue = false;
             }
 
-            else if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+            else if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 _currentScaleIndex = (int)Speed.SlowMo;
                 RM.time.SetTargetTimescale(_speedValues[_currentScaleIndex]);
             }
 
-            else if (Keyboard.current.numpad2Key.wasPressedThisFrame)
+            else if (Keyboard.current.digit3Key.wasPressedThisFrame)
             {
                 _currentScaleIndex = (int)Speed.Half;
                 RM.time.SetTargetTimescale(_speedValues[_currentScaleIndex]);
             }
 
-            else if (Keyboard.current.numpad3Key.wasPressedThisFrame)
+            else if (Keyboard.current.digit4Key.wasPressedThisFrame)
             {
                 _currentScaleIndex = (int)Speed.Normal;
                 RM.time.SetTargetTimescale(_speedValues[_currentScaleIndex]);

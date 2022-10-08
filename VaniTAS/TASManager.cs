@@ -49,10 +49,12 @@ namespace VaniTAS
                 BinaryFormatter formatter = new();
                 _currentTAS = (List<InputAction>)formatter.Deserialize(stream);
                 stream.Close();
-            } catch (FileNotFoundException fileNotFound)
+            }
+            catch (FileNotFoundException fileNotFound)
             {
                 Debug.Log(fileNotFound.Message);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.LogException(e);
                 Debug.LogError("Following TAS file might be broken: " + path);
