@@ -9,7 +9,6 @@ namespace VaniTAS
 {
     public class Main : MelonMod
     {
-
         public static Game Game { get; private set; }
 
         private static Mode NextMode = Mode.Disabled;
@@ -22,6 +21,7 @@ namespace VaniTAS
             fontStyle = FontStyle.Bold
         };
 
+        [Obsolete]
         public override void OnApplicationLateStart()
         {
             AntiCheat.Anticheat.TriggerAnticheat();
